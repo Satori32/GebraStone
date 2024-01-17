@@ -61,7 +61,6 @@ protected:
 	std::vector<SharedGebraStonePoint> Oku;//maybe axis z.
 };
 
-
 int main() {
 	GebraStone GS;
 
