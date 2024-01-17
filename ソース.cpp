@@ -25,7 +25,7 @@ public:
 
 			std::vector<DataType> Data;
 
-			DataType operator [](Property N) {
+			DataType& operator [](Property N) {
 				return Data[(std::size_t)N];
 			}
 			std::size_t Size() {
@@ -37,6 +37,17 @@ public:
 		std::vector<SharedGebraStonePoint> Yoko;//maybe axis x.
 		std::vector<GebraStonePointData> Data;
 		std::vector<GebraStonePointData> Chash;
+
+		bool NewOku() {
+			Oku.push_back(std::make_shared<GebraStonePoint>());
+			return true;
+		}
+
+		bool NewYoko() {
+			Yoko.push_back(std::make_shared<GebraStonePoint>());
+			return true;
+		}
+
 
 		GebraStonePointData& operator [](std::size_t N) {
 				return Data[N];
@@ -57,6 +68,14 @@ public:
 	std::vector<SharedGebraStonePoint>& GetOku() {
 		return this->Oku;
 	}
+
+	std::size_t OkuSize() {
+		return this->Oku.size();
+	}
+	bool NewOku() {
+			Oku.push_back(std::make_shared<GebraStonePoint>());
+			return true;
+	}
 protected:
 	std::vector<SharedGebraStonePoint> Oku;//maybe axis z.
 };
@@ -64,7 +83,12 @@ protected:
 int main() {
 	GebraStone GS;
 
-	GS.Get()->Chash[0].Data[0] = 100;
+	GS.NewOku();
+	GS.GetOku().push_back(std::make_shared<GebraStone::GebraStonePoint>());
+	GS.GetOku()[0]->Data.push_back({});
+	GS.GetOku()[0]->Data[0].Data.push_back(100);
+
+	GS.GetOku()[0]->Data[0].Data[0]=50;
 
 	return 0;
 }
