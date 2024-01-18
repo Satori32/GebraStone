@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdint>
 #include <memory> 
+#include <map>
 
 class GebraStone {
 public:
@@ -23,10 +24,10 @@ public:
 
 			typedef std::intmax_t DataType;// too better the rational lib.
 
-			std::vector<DataType> Data;
+			std::map<Property,DataType> Data;
 
 			DataType& operator [](Property N) {
-				return Data[(std::size_t)N];
+				return Data[N];
 			}
 			std::size_t Size() {
 				return Data.size();
