@@ -32,6 +32,10 @@ public:
 			std::size_t Size() {
 				return Data.size();
 			}
+
+			bool HaveAProperty(Property P) {
+				return Data.find(P)!=Data.end();
+			}
 		};
 
 		std::vector<SharedGebraStonePoint> Oku;//maybe axis z.
@@ -84,12 +88,14 @@ protected:
 int main() {
 	GebraStone GS;
 
-	GS.NewOku();
+//	GS.NewOku();
 	GS.GetOku().push_back(std::make_shared<GebraStone::GebraStonePoint>());
 	GS.GetOku()[0]->Data.push_back({});
-	GS.GetOku()[0]->Data[0].Data.push_back(100);
+	GS.GetOku()[0]->Data[0].Data[GebraStone::GebraStonePoint::GebraStonePointData::Property::Zero ]=100;
 
-	GS.GetOku()[0]->Data[0].Data[0]=50;
+	GS.GetOku()[0]->Data[0].Data[GebraStone::GebraStonePoint::GebraStonePointData::Property::Zero ] = 50;
 
+	bool F = GS.GetOku()[0]->Data[0].HaveAProperty(GebraStone::GebraStonePoint::GebraStonePointData::Property::Zero);
+	bool F2 = GS.GetOku()[0]->Data[0].HaveAProperty(GebraStone::GebraStonePoint::GebraStonePointData::Property::One);
 	return 0;
 }
