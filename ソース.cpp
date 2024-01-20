@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <memory> 
 #include <map>
+#include <string>
 
 class GebraStone {
 public:
@@ -10,7 +11,6 @@ public:
 	struct  GebraStonePointData;
 	typedef std::shared_ptr<GebraStonePoint> SharedGebraStonePoint;
 	typedef std::shared_ptr<GebraStonePointData> SharedGebraStonePointData;
-	
 
 
 	struct GebraStonePoint {
@@ -42,6 +42,7 @@ public:
 		std::vector<SharedGebraStonePoint> Yoko;//maybe axis x.
 		std::vector<GebraStonePointData> Data;
 		std::vector<GebraStonePointData> Chash;
+		std::map<std::string, std::vector<SharedGebraStonePoint>> BookMark;
 
 		bool NewOku() {
 			Oku.push_back(std::make_shared<GebraStonePoint>());
