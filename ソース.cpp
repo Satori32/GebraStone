@@ -11,6 +11,7 @@ public:
 	struct  GebraStonePointData;
 	typedef std::shared_ptr<GebraStonePoint> SharedGebraStonePoint;
 	typedef std::shared_ptr<GebraStonePointData> SharedGebraStonePointData;
+	typedef std::shared_ptr<std::vector<SharedGebraStonePoint>> SharedGebraStonePoints;
 
 
 	struct GebraStonePoint {
@@ -38,19 +39,19 @@ public:
 			}
 		};
 
-		std::vector<SharedGebraStonePoint> Oku;//maybe axis z.
-		std::vector<SharedGebraStonePoint> Yoko;//maybe axis x.
+		SharedGebraStonePoints Oku= std::make_shared<std::vector<SharedGebraStonePoint>>();//maybe axis z.
+		SharedGebraStonePoints Yoko= std::make_shared<std::vector<SharedGebraStonePoint>>();//maybe axis x.
 		std::vector<GebraStonePointData> Data;
 		std::vector<GebraStonePointData> Chash;
 		std::map<std::string, std::vector<SharedGebraStonePoint>> BookMark;
 
 		bool NewOku() {
-			Oku.push_back(std::make_shared<GebraStonePoint>());
+			Oku->push_back(std::make_shared<GebraStonePoint>());
 			return true;
 		}
 
 		bool NewYoko() {
-			Yoko.push_back(std::make_shared<GebraStonePoint>());
+			Yoko->push_back(std::make_shared<GebraStonePoint>());
 			return true;
 		}
 
@@ -64,39 +65,39 @@ public:
 	};
 
 	GebraStone::GebraStonePoint::GebraStonePointData& operator [](std::size_t In) {
-		return Oku[0]->Data[In];
+		return Oku->at(0)->Data[In];
 	}
 
-	SharedGebraStonePoint& Get() {
-		return Oku[0];
+	SharedGebraStonePoints& Get() {
+		return Oku;
 	}
 
-	std::vector<SharedGebraStonePoint>& GetOku() {
-		return this->Oku;
+	SharedGebraStonePoints GetOku() {
+		return (*this).Oku;
 	}
 
 	std::size_t OkuSize() {
-		return this->Oku.size();
+		return this->Oku->size();
 	}
 	bool NewOku() {
-			Oku.push_back(std::make_shared<GebraStonePoint>());
+			Oku->push_back(std::make_shared<GebraStonePoint>());
 			return true;
 	}
 protected:
-	std::vector<SharedGebraStonePoint> Oku;//maybe axis z.
+	SharedGebraStonePoints Oku=std::make_shared<std::vector<SharedGebraStonePoint>>();//maybe axis z.
 };
 
 int main() {
 	GebraStone GS;
 
 //	GS.NewOku();
-	GS.GetOku().push_back(std::make_shared<GebraStone::GebraStonePoint>());
-	GS.GetOku()[0]->Data.push_back({});
-	GS.GetOku()[0]->Data[0].Data[GebraStone::GebraStonePoint::GebraStonePointData::Property::Zero ]=100;
+	GS.GetOku()->push_back(std::make_shared<GebraStone::GebraStonePoint>());
+	GS.GetOku()->at(0)->Data.push_back({});
+	GS.GetOku()->at(0)->Data[0].Data[GebraStone::GebraStonePoint::GebraStonePointData::Property::Zero] = 100;
 
-	GS.GetOku()[0]->Data[0].Data[GebraStone::GebraStonePoint::GebraStonePointData::Property::Zero ] = 50;
+	GS.GetOku()->at(0)->Data[0].Data[GebraStone::GebraStonePoint::GebraStonePointData::Property::Zero] = 50;
 
-	bool F = GS.GetOku()[0]->Data[0].HaveAProperty(GebraStone::GebraStonePoint::GebraStonePointData::Property::Zero);
-	bool F2 = GS.GetOku()[0]->Data[0].HaveAProperty(GebraStone::GebraStonePoint::GebraStonePointData::Property::One);
+	bool F = GS.GetOku()->at(0)->Data[0].HaveAProperty(GebraStone::GebraStonePoint::GebraStonePointData::Property::Zero);
+	bool F2 = GS.GetOku()->at(0)->Data[0].HaveAProperty(GebraStone::GebraStonePoint::GebraStonePointData::Property::One);
 	return 0;
 }
