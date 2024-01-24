@@ -38,12 +38,55 @@ public:
 				return Data.find(P)!=Data.end();
 			}
 		};
+		struct Relation
+		{
+			struct Arrow
+			{
+				SharedGebraStonePoint To;
+				std::intmax_t Weight = 0;
+				std::vector<std::string> Origin;
+				bool SetOrigin(const std::string& In) {
+					Origin.push_back(In);
+				}
+				bool SetWeight(std::intmax_t In) {
+					Weight = In;
+				}
+
+			};
+			std::vector<Arrow> R;
+			bool PushArrow(SharedGebraStonePoint P, std::intmax_t W) {
+				R.push_back({ P,W ,{} });
+				return true;
+			}
+
+			bool PopArrow(Arrow A) {
+				for (auto i = R.begin(); i != R.end(); i++) {
+					if (i->To == A.To) {
+						R.erase(i);
+						return true;
+					}
+				}
+				return false;
+			}
+
+			std::vector<Arrow>::iterator begin() {
+				return R.begin();
+			}
+			std::vector<Arrow>::iterator end() {
+				return R.end();
+			}
+		};
 
 		SharedGebraStonePoints Oku= std::make_shared<std::vector<SharedGebraStonePoint>>();//maybe axis z.
 		SharedGebraStonePoints Yoko= std::make_shared<std::vector<SharedGebraStonePoint>>();//maybe axis x.
 		std::vector<GebraStonePointData> Data;
 		std::vector<GebraStonePointData> Chash;
 		std::map<std::string, std::vector<SharedGebraStonePoint>> BookMark;
+		Relation Arrows;
+
+		Relation& GetRelation() {
+			return Arrows;
+		}
 
 		bool NewOku() {
 			Oku->push_back(std::make_shared<GebraStonePoint>());
